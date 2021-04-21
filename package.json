@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "docker:dev": "docker build -t server . && docker run -p 3000:3000 -v $(pwd):/home/app server",
-    "docker:push": "docker tag server:abarchibody/todo-server && docker push",
+    "docker:push": "docker build -t server -f Dockerfile.prod . && docker tag server abarchibody/todo-server && docker push abarchibody/todo-server",
     "build": "tsc --project ./",
     "start": "node build/index.js"
   },
