@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.ts",
+    "docker:dev": "docker build -t server . && docker run -p 3000:3000 -v $(pwd):/home/app server",
+    "docker:push": "docker tag server:abarchibody/todo-server && docker push",
     "build": "tsc --project ./",
     "start": "node build/index.js"
   },

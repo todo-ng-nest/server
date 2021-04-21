@@ -1,10 +1,9 @@
 require("dotenv").config();
-const cors = require("cors");
 import http from "http";
 import express from "express";
-import bodyParser from "body-parser";
 import Router from "./router";
 
+const cors = require("cors");
 const app = express();
 const server = http.createServer(app);
 
@@ -19,7 +18,9 @@ if (webAppHost) corsOptions.origin.push(webAppUrl);
 
 app.options("*", cors(corsOptions));
 app.use(cors(corsOptions));
-app.use(bodyParser.json());
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 new Router(app).initialize();
 
