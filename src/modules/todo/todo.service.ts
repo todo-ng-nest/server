@@ -2,33 +2,36 @@ import { Injectable } from '@nestjs/common';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Todo } from './models/Todo';
-import { find } from "lodash";
+import { find, findIndex } from "lodash";
 
 @Injectable()
 export class TodoService {
   private todos: Todo[] = [
-    { id: 1, title: 'Learn Angular', complete: true },
-    {id: 1, title: 'Learn React', complete: false}
-  ]
+    { id: 1, title: 'Learn Angular', completed: true },
+    { id: 2, title: 'Learn React', completed: false }
+  ];
 
   all(): Todo[] {
-    return this.todos
+    return this.todos;
   }
 
   one(id: number): Todo | undefined {
-    return find(this.todos, {id})
+    return find(this.todos, { id });
   }
 
   add(todo: CreateTodoDto): Todo {
-    this.todos.push(todo)
-    return todo
+    todo.id = this.todos.length ? this.todos[this.todos.length - 1].id + 1 : 1;
+    this.todos.push(todo);
+    return todo;
   }
 
   update(id: number, todo: UpdateTodoDto): UpdateTodoDto {
-    return todo
+    const index = findIndex(this.todos, { id });
+    if (index >= 0) this.todos[index] = { ...this.todos[index], ...todo };
+    return todo;
   }
 
   drop(id: number): Todo[] {
-    return this.todos.filter(todo => todo.id != id)
+    return this.todos = this.todos.filter(todo => todo.id != id);
   }
 }
